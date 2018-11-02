@@ -217,3 +217,9 @@ Src/PrtDist/Binaries/clusterconfiguration.xml
 Src/PrtDist/Samples/PingPong/PingPong.zing
 Src/PrtDist/Samples/PingPong/stubs.c
 Src/PrtDist/Samples/PingPong/program.h
+*.sqlite
+*.json
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal
