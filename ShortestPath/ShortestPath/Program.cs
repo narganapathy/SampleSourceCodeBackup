@@ -14,7 +14,8 @@ namespace ShortestPath
             Graph graph = new Graph();
             graph.ReadGraphInput(args[0]);
             graph.PrintGraph();
-            graph.DepthFirstSearch("Node1");
+            graph.ShortestPath("Node1");
+            //graph.DepthFirstSearch("Node1");
             Console.ReadLine();
         }
 
@@ -156,8 +157,86 @@ namespace ShortestPath
                 }
             }
 
-            public void
-            ReadGraphInput(string fileName)
+            public Node NodeWithMinDistance(Dictionary<string, int> costFromSource, HashSet<string> shortestPathSet)
+            {
+                int minCost = int.MaxValue;
+                Node minNode = null;
+                foreach (Node n in _nodes)
+                {
+                    if (!shortestPathSet.Contains(n.Name))
+                    {
+                        int cost = costFromSource[n.Name];
+                        if (cost < minCost)
+                        {
+                            minCost = cost;
+                            minNode = n;
+                        }
+                    }
+                }
+                if (minNode != null) Console.WriteLine($"Picking node {minNode.Name} with lowest cost {minCost}");
+                return minNode;
+            }
+
+            // use Dijkstra shortest path algoroithm
+            public void ShortestPath(string sourceNodeName)
+            {
+                Dictionary<string, int> costFromSource = new Dictionary<string, int>();
+                HashSet<string> shortestPathSet = new HashSet<string>();
+                Dictionary<string, string> parent = new Dictionary<string, string>();
+                Node sourceNode = null;
+                foreach (Node n in _nodes)
+                {
+                    if (n.Name == sourceNodeName)
+                    {
+                        costFromSource[n.Name] = 0;
+                        sourceNode = n;
+                    }
+                    else
+                    {
+                        costFromSource[n.Name] = int.MaxValue; // make the cost really large
+                    }
+                    parent[n.Name] = null;
+                }
+
+                Node minNode;
+                while((minNode = NodeWithMinDistance(costFromSource, shortestPathSet)) != null)
+                {
+                    shortestPathSet.Add(minNode.Name);
+                    // update the cost of the node's neighbors
+                    foreach (Edge edge in minNode.GetEdges())
+                    {
+                        if (shortestPathSet.Contains(edge.Neighbor.Name)) continue;
+                        int newCost = costFromSource[minNode.Name] + edge.Cost;
+                        if (newCost < costFromSource[edge.Neighbor.Name])
+                        {
+                            // update the lower cost
+                            parent[edge.Neighbor.Name] = minNode.Name; // update the path
+                            costFromSource[edge.Neighbor.Name] = newCost;
+                        }
+                    }
+                }
+
+                PrintShortestPath(parent, costFromSource, sourceNode.Name);
+            }
+
+            void PrintPath(Dictionary<string, string> parent, string currentNode)
+            {
+                if (parent[currentNode] == null) return;
+                PrintPath(parent, parent[currentNode]);
+                Console.Write($" {currentNode} ");
+            }
+
+            void PrintShortestPath(Dictionary<string, string> parent, Dictionary<string, int> costFromSource, string sourceNodeName)
+            {
+                foreach (string node in costFromSource.Keys)
+                {
+                    Console.Write($"Cost from {sourceNodeName} = {costFromSource[node]} ");
+                    PrintPath(parent, node);
+                    Console.WriteLine(" ");
+                }
+            }
+
+            public void ReadGraphInput(string fileName)
             {
                 if (!File.Exists(fileName))
                 {
