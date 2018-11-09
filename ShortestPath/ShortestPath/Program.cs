@@ -14,7 +14,7 @@ namespace ShortestPath
             Graph graph = new Graph();
             graph.ReadGraphInput(args[0]);
             graph.PrintGraph();
-            graph.DepthFirstSearch("Node1");
+            graph.DepthFirstSearch("142_180");
             Console.ReadLine();
         }
 
@@ -194,11 +194,13 @@ namespace ShortestPath
                         if (destinationNode == null)
                         {
                             Console.WriteLine($"Cannot find node with name {edgeComponents[0]}");
+                            continue;
                         }
                         int cost;
                         if (!int.TryParse(edgeComponents[1], out cost))
                         {
                             Console.WriteLine($"Cannot find cost of edge with name {edgeComponents[0]}, {edgeComponents[1]}");
+                            continue;
                         }
                         AddDirectedEdge(sourceNode, destinationNode, cost);
                     }
