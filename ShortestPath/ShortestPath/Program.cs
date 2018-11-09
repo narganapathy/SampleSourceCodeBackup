@@ -273,11 +273,13 @@ namespace ShortestPath
                         if (destinationNode == null)
                         {
                             Console.WriteLine($"Cannot find node with name {edgeComponents[0]}");
+                            continue;
                         }
                         int cost;
                         if (!int.TryParse(edgeComponents[1], out cost))
                         {
                             Console.WriteLine($"Cannot find cost of edge with name {edgeComponents[0]}, {edgeComponents[1]}");
+                            continue;
                         }
                         AddDirectedEdge(sourceNode, destinationNode, cost);
                     }
