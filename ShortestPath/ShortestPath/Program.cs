@@ -14,7 +14,7 @@ namespace ShortestPath
             Graph graph = new Graph();
             graph.ReadGraphInput(args[0]);
             graph.PrintGraph();
-            graph.ShortestPath("Node1");
+            graph.ShortestPath("Home");
             //graph.DepthFirstSearch("Node1");
             Console.ReadLine();
         }
@@ -173,7 +173,6 @@ namespace ShortestPath
                         }
                     }
                 }
-                if (minNode != null) Console.WriteLine($"Picking node {minNode.Name} with lowest cost {minCost}");
                 return minNode;
             }
 
@@ -221,16 +220,21 @@ namespace ShortestPath
 
             void PrintPath(Dictionary<string, string> parent, string currentNode)
             {
-                if (parent[currentNode] == null) return;
+                if (parent[currentNode] == null)
+                {
+                    Console.Write("Path is " + currentNode);
+                    return;
+                }
+
                 PrintPath(parent, parent[currentNode]);
-                Console.Write($" {currentNode} ");
+                Console.Write($" --> {currentNode}");
             }
 
             void PrintShortestPath(Dictionary<string, string> parent, Dictionary<string, int> costFromSource, string sourceNodeName)
             {
                 foreach (string node in costFromSource.Keys)
                 {
-                    Console.Write($"Cost from {sourceNodeName} = {costFromSource[node]} ");
+                    Console.Write($"Min cost from {sourceNodeName} to {node} = {costFromSource[node]} ");
                     PrintPath(parent, node);
                     Console.WriteLine(" ");
                 }
