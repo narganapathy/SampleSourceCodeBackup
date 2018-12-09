@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BalancedParens
 {
+    // print all the balanced parens sub string
     class Program
     {
         static void Main(string[] args)

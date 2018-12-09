@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// the problem is this. Givena  tree, where each node has a _next pointer, set the _next pointer to the closest sibling
+// at the same height.
+
 namespace NextNodeInTree
 {
     class Program

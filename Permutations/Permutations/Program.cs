@@ -11,7 +11,7 @@ namespace Permutations
     {
         static void Main(string[] args)
         {
-            GeneratePermutation("MARTY");
+            GeneratePermutation("MAR");
             //FindPermutationForRank(3, 2);
         }
 
@@ -57,21 +57,23 @@ namespace Permutations
             return finalString;
         }
 
-        static void PermutationHelper(char[] sarray, string chosen)
+        static void PermutationHelper(List<char> sarray, string chosen)
         {
-            if (chosen.Length == sarray.Length)
+            //Console.Write($"Sarray {sarray.Count} chosen {chosen} ");
+            //foreach (char c in sarray) Console.Write(c);
+            //Console.WriteLine();
+            if (0 == sarray.Count)
             {
                 Console.WriteLine(chosen);
                 return;
             }
 
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0; i < sarray.Count; i++)
             {
                 char c = sarray[i];
-                chosen = chosen + c;
+                string newchosen = chosen + c;
                 sarray.RemoveAt(i);
-                PermutationHelper(sarray, chosen);
-                chosen.TrimEnd(c);
+                PermutationHelper(sarray, newchosen);
                 sarray.Insert(i, c);
             }
         }
@@ -79,7 +81,8 @@ namespace Permutations
         static void
         GeneratePermutation(string s)
         {
-            PermutationHelper(s.ToCharArray(), string.Empty);
+            PermutationHelper(s.ToList(), string.Empty);
+            Console.ReadLine();
         }
     }
 }
