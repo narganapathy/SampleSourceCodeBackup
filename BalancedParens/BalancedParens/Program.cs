@@ -11,10 +11,45 @@ namespace BalancedParens
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"Final string is {BalancedParens("(())((")}");
+            Console.WriteLine($"Final string is {BalancedParens1("(())((")}");
             Console.ReadLine();
         }
 
+        static string BalancedParens1(string s)
+        {
+            Stack<int> parentStack = new Stack<int>();
+            List<int> indexesToIgnore = new List<int>();
+            char[] sarray = s.ToCharArray();
+            for (int i = 0; i < sarray.Length; i++)
+            {
+                if (sarray[i] == '(')
+                {
+                    parentStack.Push(i);
+                }
+                if (sarray[i] == ')')
+                {
+                    if (parenStack.Count == 0) 
+                    {
+                        indexesToIgnore.Add(i);
+                        continue;
+                    }
+                    parenStack.Pop();
+                }
+            }
+            while (parentStack.Count > 0)
+            {
+                indexesToIgnore.Add(parentStack.Pop());
+            }
+            string finalString = string.Empty;
+            for (int i = 0; i < sarray.Length; i++)
+            {
+                if (!indexesToIgnore.Contains(i))
+                {
+                    finalString += sarray[i];     
+                }
+            }
+            return finalString;
+        }
         static string BalancedParens(string s)
         {
             int len = s.Length;
