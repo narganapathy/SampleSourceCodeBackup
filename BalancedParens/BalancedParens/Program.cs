@@ -11,7 +11,7 @@ namespace BalancedParens
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"Final string is {BalancedParens1("(())((")}");
+            Console.WriteLine($"Final string is {BalancedParens1("(())(()()")}");
             Console.ReadLine();
         }
 
@@ -28,12 +28,12 @@ namespace BalancedParens
                 }
                 if (sarray[i] == ')')
                 {
-                    if (parenStack.Count == 0) 
+                    if (parentStack.Count == 0) 
                     {
                         indexesToIgnore.Add(i);
                         continue;
                     }
-                    parenStack.Pop();
+                    parentStack.Pop();
                 }
             }
             while (parentStack.Count > 0)
